@@ -13,5 +13,6 @@ export default {
 </script>
 
 <style>
-  @import "./assets/css/base.css"
+  /* 路径使用了别名 */
+  @import "assets/css/base.css";
 </style>
