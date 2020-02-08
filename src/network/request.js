@@ -10,7 +10,7 @@ export function request(config) {
   // 2.拦截器
   // 2.1请求拦截器
   instance.interceptors.request.use(config =>{
-    console.log(config)
+    // console.log(config)
     // 拦截成功要返回数据
     return config
   }, err=>{
@@ -19,9 +19,9 @@ export function request(config) {
 
   // 2.2响应拦截器
   instance.interceptors.response.use(res=>{
-    console.log(res)
+    // console.log(res)
     // 拦截成功要返回数据
-    return res
+    return res.data
   }, err=>{
     console.log("响应拦截失败")
   })
