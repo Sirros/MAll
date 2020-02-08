@@ -2,6 +2,7 @@
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
       <home-swiper :banners="banners" />
+      <recommend-view :recommends="recommends"/>
     </div>
 </template>
 
@@ -9,7 +10,7 @@
 // 导入组件
 import NavBar from 'components/common/navbar/NavBar'
 import HomeSwiper from './childComps/HomeSwiper'
-
+import RecommendView from './childComps/RecommendView'
 
 // 网络封装导入
 import {getHomeMultiData} from 'network/home'
@@ -17,20 +18,21 @@ import {getHomeMultiData} from 'network/home'
 export default {
   components:{
     NavBar,
-    HomeSwiper
+    HomeSwiper,
+    RecommendView
   },
   props:{},
   data(){
     return {
       banners: [],
-      recommend: []
+      recommends: []
     }
   },
   created() {
     getHomeMultiData().then(res=>{
       console.log(res)
       this.banners = res.data.banner.list
-      this.recommend = res.data.recommend.list
+      this.recommends = res.data.recommend.list
     })
   }
 }
