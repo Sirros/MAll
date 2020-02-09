@@ -5,60 +5,8 @@
       <recommend-view :recommends="recommends"/>
       <feature-view/>
       <tab-control :title="['流行','新款','精选']" />
+      <goods-list :goods="goods['pop'].list"/>
       <ul>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
         <li>1</li>
         <li>1</li>
         <li>1</li>
@@ -77,9 +25,10 @@ import FeatureView from './childComps/FeatureView'
 // 公共组件导入
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
+import GoodsList from 'components/content/goods/GoodsList'
 
 // 网络封装导入
-import {getHomeMultiData} from 'network/home'
+import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
 
 export default {
   components:{
@@ -87,22 +36,47 @@ export default {
     RecommendView,
     FeatureView,
     TabControl,
-
+    GoodsList,
     NavBar
   },
   props:{},
   data(){
     return {
       banners: [],
-      recommends: []
+      recommends: [],
+      goods:{
+        'pop': {page: 0, list: []},
+        'new': {page: 0, list: []},
+        'sell': {page: 0, list: []}
+      }
     }
   },
   created() {
-    getHomeMultiData().then(res=>{
-      console.log(res)
+    // 请求所有数据
+    this.HomeMultiData()
+
+    // 请求商品数据
+    this.HomeTotalGoodsData('pop')
+    this.HomeTotalGoodsData('new')
+    this.HomeTotalGoodsData('sell')
+  },
+  methods:{
+    HomeMultiData(){
+      getHomeMultiData().then(res=>{
+      // console.log(res)
       this.banners = res.data.banner.list
       this.recommends = res.data.recommend.list
-    })
+      })
+    },
+    HomeTotalGoodsData(type){
+      // 一页一页加载数据
+      const page = this.goods[type].page + 1
+      getHomeTotalGoodsData(type, page).then(res => {
+        console.log(res)
+        this.goods[type].list.push(...res.data.list)
+        this.goods[type].page += 1
+      })
+    }
   }
 }
 </script>
@@ -120,6 +94,12 @@ export default {
     left: 0;
     right: 0;
     top: 0;
+    z-index: 8;
+  }
+  .tab-control{
+    position: sticky;
+    background-color: #fff;
+    top: 44px;
     z-index: 9;
   }
 </style>
