@@ -4,8 +4,53 @@
       <home-swiper :banners="banners" />
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-
+      <tab-control :title="['流行','新款','精选']" />
       <ul>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
+        <li>1</li>
         <li>1</li>
         <li>1</li>
         <li>1</li>
@@ -24,21 +69,26 @@
 </template>
 
 <script>
-// 导入组件
-import NavBar from 'components/common/navbar/NavBar'
+// home 子导入组件
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
+
+// 公共组件导入
+import NavBar from 'components/common/navbar/NavBar'
+import TabControl from 'components/content/tabControl/TabControl'
 
 // 网络封装导入
 import {getHomeMultiData} from 'network/home'
 
 export default {
   components:{
-    NavBar,
     HomeSwiper,
     RecommendView,
-    FeatureView
+    FeatureView,
+    TabControl,
+
+    NavBar
   },
   props:{},
   data(){
@@ -59,6 +109,7 @@ export default {
 <style scoped>
   #home{
     padding-top: 44px;
+    background-color: #fff;
   }
   .home-nav-bar{
     color: #fff;
@@ -69,5 +120,6 @@ export default {
     left: 0;
     right: 0;
     top: 0;
+    z-index: 9;
   }
 </style>
