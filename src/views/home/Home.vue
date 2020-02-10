@@ -1,20 +1,15 @@
 <template>
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
-      <home-swiper :banners="banners" />
-      <recommend-view :recommends="recommends"/>
-      <feature-view/>
-      <tab-control 
-        :title="['流行','新款','精选']"  
-        @tabClick="tabClick" />
-      <goods-list :goods="goods[currentType].list"/>
-      <ul>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-      </ul>
+      <b-scroll class="content">
+        <home-swiper :banners="banners" />
+        <recommend-view :recommends="recommends"/>
+        <feature-view/>
+        <tab-control 
+          :title="['流行','新款','精选']"  
+          @tabClick="tabClick" />
+        <goods-list :goods="goods[currentType].list"/>
+      </b-scroll>
     </div>
 </template>
 
@@ -28,6 +23,7 @@ import FeatureView from './childComps/FeatureView'
 import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
+import BScroll from 'components/common/scroll/BScroll'
 
 // 网络封装导入
 import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
@@ -39,7 +35,8 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
-    NavBar
+    NavBar,
+    BScroll
   },
   props:{},
   data(){
@@ -103,6 +100,8 @@ export default {
   #home{
     padding-top: 44px;
     background-color: #fff;
+    height: 100vh;
+    position: relative;
   }
   .home-nav-bar{
     color: #fff;
@@ -121,4 +120,18 @@ export default {
     top: 44px;
     z-index: 9;
   }
+
+  /* 用定位实现 */
+  .content{
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 49px;
+  }
+  
+  /* 用计算实现 */
+  /* .content{
+    height: calc(100vh - 93px);    
+  } */
 </style>
