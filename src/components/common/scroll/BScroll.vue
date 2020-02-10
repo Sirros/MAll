@@ -23,6 +23,11 @@ export default {
       click: true,
       pullUpLoad: true
     })
+  },
+  methods:{
+    scrollToTop(x, y, time) {
+      this.scroll.scrollTo(x, y, time)
+    }
   }
 }
 </script>

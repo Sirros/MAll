@@ -1,7 +1,7 @@
 <template>
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
-      <b-scroll class="content">
+      <b-scroll class="content" ref="scroll">
         <home-swiper :banners="banners" />
         <recommend-view :recommends="recommends"/>
         <feature-view/>
@@ -10,6 +10,8 @@
           @tabClick="tabClick" />
         <goods-list :goods="goods[currentType].list"/>
       </b-scroll>
+      <!-- 组件的事件监听必须加修饰符.native -->
+      <back-top @click.native="backTop"/>
     </div>
 </template>
 
@@ -24,6 +26,7 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import BScroll from 'components/common/scroll/BScroll'
+import BackTop from 'components/common/backtop/BackTop'
 
 // 网络封装导入
 import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
@@ -36,7 +39,8 @@ export default {
     TabControl,
     GoodsList,
     NavBar,
-    BScroll
+    BScroll,
+    BackTop
   },
   props:{},
   data(){
@@ -74,6 +78,11 @@ export default {
           this.currentType = 'sell'
           break
       }
+    },
+    backTop(x, y, time){
+      // this.$refs.scroll.scrollTo(0, 0, 600)
+      console.log("backtop")
+      this.$refs.scroll.scrollToTop(0, 0, 500)
     },
 
     // 网络数据请求事件
@@ -129,7 +138,7 @@ export default {
     right: 0;
     bottom: 49px;
   }
-  
+
   /* 用计算实现 */
   /* .content{
     height: calc(100vh - 93px);    
