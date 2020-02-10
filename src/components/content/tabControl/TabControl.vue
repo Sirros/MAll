@@ -25,8 +25,10 @@ export default {
     }
   },
   methods:{
+    // 点击的时候把index传到home实现数据切换显示功能
     tabControlClick(index){
       this.currentIndex = index
+      this.$emit('tabClick', index)
     }
   }
 }
