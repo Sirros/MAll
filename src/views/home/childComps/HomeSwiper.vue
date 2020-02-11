@@ -1,23 +1,23 @@
 <template>
-  <div class="">
-    <swiper>
-        <swiper-item v-for="(item, index) in banners" :key="index">
+    <div class="wrapper">
+        <swiper :options="swiperOption" class="swiper-container" >
+        <!-- slides -->
+        <swiper-slide class="swiper-item" v-for='(item, index) of banners' :key='index'>
           <a :href="item.link">
-            <img :src="item.image" alt=""/>
+            <img class='swiper-img' :src='item.image' alt="去哪儿门票" />
           </a>
-        </swiper-item>
-      </swiper>
+        </swiper-slide>
+        <!-- Optional controls ,显示小点-->
+        <div class="swiper-pagination"  slot="pagination"></div>
+    </swiper>
   </div>
 </template>
 
 <script>
-// 导入轮播图组件
-import {Swiper, SwiperItem} from 'components/common/swiper/index.js'
-
 export default {
+  name:'HomeSwiper',
   components:{
-    Swiper,
-    SwiperItem
+    
   },
   props:{
     banners: Array,
@@ -27,9 +27,29 @@ export default {
   },
   data(){
     return {
+      swiperOption:{
+                // 参数选项,显示小点
+                pagination:'.swiper-pagination',
+                //循环
+                loop:true,
+                //每张播放时长2秒，自动播放
+                autoplay:2000,
+                //滑动速度
+                speed:800,
+                // delay:1000
+
+            },
+            pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+          },
     }
   }
 }
 </script>
 <style scoped>
+    .swiper-item img{
+      width: 100%;
+    }
+    
 </style>

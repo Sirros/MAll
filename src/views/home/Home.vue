@@ -1,12 +1,15 @@
 <template>
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
+
       <b-scroll class="content" ref="scroll" 
           :probe-type="3" 
           @scroll="backTopLogoShow"
           :pull-up-load="true"
           @pullingUp="loadMore">  
+
         <home-swiper :banners="banners" ref="swiper"/>
+
         <recommend-view :recommends="recommends"/>
         <feature-view/>
         <tab-control 
@@ -14,6 +17,7 @@
           @tabClick="tabClick" />
         <goods-list :goods="goods[currentType].list"/>
       </b-scroll>
+
       <!-- 组件的事件监听必须加修饰符.native -->
       <back-top @click.native="backTop" v-show="isShow"/>
     </div>
