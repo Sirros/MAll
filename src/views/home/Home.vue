@@ -1,8 +1,12 @@
 <template>
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
-      <b-scroll class="content" ref="scroll" :probe-type="3" @scroll="backTopLogoShow">
-        <home-swiper :banners="banners" />
+      <b-scroll class="content" ref="scroll" 
+          :probe-type="3" 
+          @scroll="backTopLogoShow"
+          :pull-up-load="true"
+          @pullingUp="loadMore">  
+        <home-swiper :banners="banners" ref="swiper"/>
         <recommend-view :recommends="recommends"/>
         <feature-view/>
         <tab-control 
@@ -89,6 +93,11 @@ export default {
       // console.log(position)
       this.isShow = (-position.y) > 1000
     },
+    loadMore(){
+      console.log("上拉加载更多")
+      this.HomeTotalGoodsData(this.currentType)
+      this.$refs.scroll.scroll.refresh()
+    },
 
 
     // 网络数据请求事件
@@ -106,6 +115,8 @@ export default {
         console.log(res)
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
+
+        this.$refs.scroll.finishPullUp()
       })
     }
   }

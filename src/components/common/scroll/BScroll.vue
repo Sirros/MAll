@@ -15,6 +15,10 @@ export default {
     probeType:{
       type: Number,
       default: 0
+    },
+    pullUpLoad:{
+      type: Boolean,
+      default: false
     }
   },
   data(){
@@ -27,18 +31,26 @@ export default {
     this.scroll = new BScroll(this.$refs.wrapper, {
       probeType: this.probeType,
       click: true,
-      pullUpLoad: true
+      pullUpLoad: this.pullUpLoad
     })
-    // 监听滚动位置
+    
+    // 2.监听滚动位置
     this.scroll.on('scroll', position=>{
       // 把位置传到外面
       this.$emit('scroll', position)
-      // console.log(position)
+    })
+
+    // 3.监听上拉事件
+    this.scroll.on('pullingUp', ()=>{
+      this.$emit('pullingUp')
     })
   },
   methods:{
     scrollToTop(x, y, time) {
       this.scroll.scrollTo(x, y, time)
+    },
+    finishPullUp(){
+      this.scroll.finishPullUp()
     }
   }
 }
