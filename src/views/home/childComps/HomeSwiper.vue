@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <swiper :options="swiperOption" class="swiper-container" >
+      <swiper :options="swiperOption" class="swiper-container" >
         <!-- slides -->
         <swiper-slide class="swiper-item" v-for='(item, index) of banners' :key='index'>
           <a :href="item.link">
@@ -51,5 +51,18 @@ export default {
     .swiper-item img{
       width: 100%;
     }
-    
+    .swiper-container .swiper-pagination-bullet{
+      box-sizing: border-box;
+      width: 8px;
+      height: 8px;
+      border-radius: 4px;
+      background-color: #fff;
+      line-height: 8px;
+      text-align: center;
+      font-size: 12px;
+      margin: 0 5px;
+    }
+    .swiper-container .swiper-pagination-bullet-avtive{
+      background-color: rgba(212,62,46,1.0);
+    }
 </style>

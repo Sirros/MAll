@@ -6,7 +6,7 @@
           :probe-type="3" 
           @scroll="backTopLogoShow"
           :pull-up-load="true"
-          @pullingUp="loadMore">  
+          >  
 
         <home-swiper :banners="banners" ref="swiper"/>
 
@@ -72,6 +72,15 @@ export default {
     this.HomeTotalGoodsData('pop')
     this.HomeTotalGoodsData('new')
     this.HomeTotalGoodsData('sell')
+
+    
+  },
+  mounted(){
+    // 监听item中图片加载完成
+    this.$bus.$on('itemImageLoad', ()=>{
+      console.log('/-----------------')
+      this.$refs.scroll.refresh()
+    })
   },
   methods:{
     // 事件监听事件
@@ -97,11 +106,11 @@ export default {
       // console.log(position)
       this.isShow = (-position.y) > 1000
     },
-    loadMore(){
-      console.log("上拉加载更多")
-      this.HomeTotalGoodsData(this.currentType)
-      this.$refs.scroll.scroll.refresh()
-    },
+    // loadMore(){
+    //   console.log("上拉加载更多")
+    //   this.HomeTotalGoodsData(this.currentType)
+    //   this.$refs.scroll.scroll.refresh()
+    // },
 
 
     // 网络数据请求事件
@@ -120,7 +129,7 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
 
-        this.$refs.scroll.finishPullUp()
+        // this.$refs.scroll.finishPullUp()
       })
     }
   }
