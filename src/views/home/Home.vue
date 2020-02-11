@@ -1,7 +1,7 @@
 <template>
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
-      <b-scroll class="content" ref="scroll">
+      <b-scroll class="content" ref="scroll" :probe-type="3" @scroll="backTopLogoShow">
         <home-swiper :banners="banners" />
         <recommend-view :recommends="recommends"/>
         <feature-view/>
@@ -11,7 +11,7 @@
         <goods-list :goods="goods[currentType].list"/>
       </b-scroll>
       <!-- 组件的事件监听必须加修饰符.native -->
-      <back-top @click.native="backTop"/>
+      <back-top @click.native="backTop" v-show="isShow"/>
     </div>
 </template>
 
@@ -52,7 +52,8 @@ export default {
         'new': {page: 0, list: []},
         'sell': {page: 0, list: []}
       },
-      currentType: 'pop'
+      currentType: 'pop',
+      isShow: false
     }
   },
   created() {
@@ -84,6 +85,11 @@ export default {
       console.log("backtop")
       this.$refs.scroll.scrollToTop(0, 0, 500)
     },
+    backTopLogoShow(position){
+      // console.log(position)
+      this.isShow = (-position.y) > 1000
+    },
+
 
     // 网络数据请求事件
     HomeMultiData(){
