@@ -2,19 +2,33 @@
     <div id="home">
       <nav-bar class='home-nav-bar'><div slot="center">购物街</div></nav-bar>
 
-      <b-scroll class="content" ref="scroll" 
+      <tab-control 
+          :title="['流行','新款','精选']"  
+          @tabClick="tabClick" 
+          ref="tabControlTop"
+          v-show="isTabFix"
+          class="tab-control-top"/>
+
+      <b-scroll 
+          class="content" 
+          ref="scroll" 
           :probe-type="3" 
           @scroll="backTopLogoShow"
           :pull-up-load="true"
-          >  
+          @pullingUp="loadMore" >  
 
-        <home-swiper :banners="banners" ref="swiper"/>
+        <home-swiper 
+          :banners="banners" 
+          ref="swiper"
+          @swiperImageLoad="swiperImageLoad"/>
 
         <recommend-view :recommends="recommends"/>
         <feature-view/>
         <tab-control 
           :title="['流行','新款','精选']"  
-          @tabClick="tabClick" />
+          @tabClick="tabClick" 
+          ref="tabControlBottom"
+          :class="{Fixed: isTabFix}" />
         <goods-list :goods="goods[currentType].list"/>
       </b-scroll>
 
@@ -39,6 +53,9 @@ import BackTop from 'components/common/backtop/BackTop'
 // 网络封装导入
 import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
 
+// 公共方法导入
+import {debounce} from 'common/utils'
+
 export default {
   components:{
     HomeSwiper,
@@ -61,7 +78,9 @@ export default {
         'sell': {page: 0, list: []}
       },
       currentType: 'pop',
-      isShow: false
+      isShow: false,
+      offsetTop: 0,
+      isTabFix: false
     }
   },
   created() {
@@ -76,13 +95,18 @@ export default {
     
   },
   mounted(){
-    // 监听item中图片加载完成
+    // 1.监听item中图片加载完成
+    // 防抖操作
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
     this.$bus.$on('itemImageLoad', ()=>{
-      console.log('/-----------------')
-      this.$refs.scroll.refresh()
+      refresh()
     })
+
+    
+
   },
   methods:{
+ 
     // 事件监听事件
     tabClick(index){
       switch(index){
@@ -96,6 +120,8 @@ export default {
           this.currentType = 'sell'
           break
       }
+      this.$refs.tabControlTop.currentIndex = index
+      this.$refs.tabControlBottom.currentIndex = index
     },
     backTop(x, y, time){
       // this.$refs.scroll.scrollTo(0, 0, 600)
@@ -104,14 +130,23 @@ export default {
     },
     backTopLogoShow(position){
       // console.log(position)
+      // 1.监听回到顶部图表是否显示
       this.isShow = (-position.y) > 1000
-    },
-    // loadMore(){
-    //   console.log("上拉加载更多")
-    //   this.HomeTotalGoodsData(this.currentType)
-    //   this.$refs.scroll.scroll.refresh()
-    // },
 
+      // 2.监听是否吸顶
+      this.isTabFix = (-position.y) > this.offsetTop
+    },
+    loadMore(){
+      console.log("上拉加载更多")
+      this.HomeTotalGoodsData(this.currentType)
+    },
+    swiperImageLoad(){
+    // 2.获取tabcontrol的offsetTop
+    // 如果只是用this.$refs.tabControl获取到的是组件，组件是没有offsetTop属性的
+    // this.$refs.tabControl.$el可以获取到组建里的html元素
+      this.offsetTop = this.$refs.tabControlBottom.$el.offsetTop
+      console.log(this.offsetTop)
+    },
 
     // 网络数据请求事件
     HomeMultiData(){
@@ -129,7 +164,7 @@ export default {
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
 
-        // this.$refs.scroll.finishPullUp()
+        this.$refs.scroll.finishPullUp()
       })
     }
   }
@@ -137,7 +172,6 @@ export default {
 </script>
 <style scoped>
   #home{
-    padding-top: 44px;
     background-color: #fff;
     height: 100vh;
     position: relative;
@@ -146,29 +180,29 @@ export default {
     color: #fff;
     text-align: center;
     background-color: var(--color-tint);
-
-    position: fixed;
+   
+    /* 在原生滚动采用 */
+    /* position: fixed;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 8;
-  }
-  .tab-control{
-    position: sticky;
-    background-color: #fff;
-    top: 44px;
-    z-index: 9;
+    z-index: 8; */
   }
 
   /* 用定位实现 */
   .content{
+    overflow: hidden;
     position: absolute;
     top: 44px;
     left: 0;
     right: 0;
     bottom: 49px;
   }
-
+  .tab-control-top{
+    position: relative;
+    z-index: 10;
+    background-color:#fff;
+  }
   /* 用计算实现 */
   /* .content{
     height: calc(100vh - 93px);    

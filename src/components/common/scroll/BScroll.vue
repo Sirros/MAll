@@ -35,24 +35,30 @@ export default {
     })
     
     // 2.监听滚动位置
-    this.scroll.on('scroll', position=>{
-      // 把位置传到外面
-      this.$emit('scroll', position)
-    })
+    if(this.probeType === 2 || this.probeType === 3){
+      this.scroll.on('scroll', position=>{
+        // 把位置传到外面
+        this.$emit('scroll', position)
+      })
+    }
 
     // 3.监听上拉事件
-    this.scroll.on('pullingUp', ()=>{
-      this.$emit('pullingUp')
-    })
+    if(this.pullUpLoad){
+      this.scroll.on('pullingUp', ()=>{
+        this.$emit('pullingUp')
+      })
+    }
   },
   methods:{
     scrollToTop(x, y, time) {
+      // 防止图片还没加在导致么有scroll对象
       this.scroll && this.scroll.scrollTo(x, y, time)
     },
-    // finishPullUp(){
-    //   this.scroll && this.scroll.finishPullUp()
-    // },
+    finishPullUp(){
+      this.scroll && this.scroll.finishPullUp()
+    },
     refresh(){
+      console.log('-----------')
       this.scroll && this.scroll.refresh()
     }
   }
