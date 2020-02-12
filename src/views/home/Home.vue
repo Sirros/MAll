@@ -80,33 +80,11 @@ export default {
       currentType: 'pop',
       isShow: false,
       offsetTop: 0,
-      isTabFix: false
+      isTabFix: false,
+      saveY: 0
     }
   },
-  created() {
-    // 请求所有数据
-    this.HomeMultiData()
-
-    // 请求商品数据
-    this.HomeTotalGoodsData('pop')
-    this.HomeTotalGoodsData('new')
-    this.HomeTotalGoodsData('sell')
-
-    
-  },
-  mounted(){
-    // 1.监听item中图片加载完成
-    // 防抖操作
-    const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on('itemImageLoad', ()=>{
-      refresh()
-    })
-
-    
-
-  },
-  methods:{
- 
+   methods:{
     // 事件监听事件
     tabClick(index){
       switch(index){
@@ -126,7 +104,7 @@ export default {
     backTop(x, y, time){
       // this.$refs.scroll.scrollTo(0, 0, 600)
       console.log("backtop")
-      this.$refs.scroll.scrollToTop(0, 0, 500)
+      this.$refs.scroll.scrollTo(0, 0, 500)
     },
     backTopLogoShow(position){
       // console.log(position)
@@ -167,6 +145,36 @@ export default {
         this.$refs.scroll.finishPullUp()
       })
     }
+  },
+  created() {
+    // 请求所有数据
+    this.HomeMultiData()
+
+    // 请求商品数据
+    this.HomeTotalGoodsData('pop')
+    this.HomeTotalGoodsData('new')
+    this.HomeTotalGoodsData('sell')
+  },
+  mounted(){
+    // 1.监听item中图片加载完成
+    // 防抖操作
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
+    this.$bus.$on('itemImageLoad', ()=>{
+      refresh()
+    })
+  },
+  destroy(){
+    console.log('destroy')
+  },
+  activated(){
+    // 再次进入的时候回到上次退出的时候那个位置
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    // 这里进行一次刷新以防无法滑动
+    this.$refs.scroll.refresh()
+  },
+  deactivated(){
+    // 离开的时候保存当前的位置
+    this.saveY = this.$refs.scroll.getScrollY()
   }
 }
 </script>

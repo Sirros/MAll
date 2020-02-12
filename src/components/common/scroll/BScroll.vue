@@ -50,7 +50,7 @@ export default {
     }
   },
   methods:{
-    scrollToTop(x, y, time) {
+    scrollTo(x, y, time) {
       // 防止图片还没加在导致么有scroll对象
       this.scroll && this.scroll.scrollTo(x, y, time)
     },
@@ -58,8 +58,11 @@ export default {
       this.scroll && this.scroll.finishPullUp()
     },
     refresh(){
-      console.log('-----------')
+      // console.log('-----------')
       this.scroll && this.scroll.refresh()
+    },
+    getScrollY(){
+      return this.scroll ? this.scroll.y : 0
     }
   }
 }
