@@ -48,6 +48,7 @@ export default {
 <style scoped>
   .title{
     display: flex;
+    text-align: center;
   }
   .title-item{
     flex: 1;
@@ -61,8 +62,6 @@ export default {
     position: relative;
   }
   .back-button img {
-    width: 20px;
-    height: 20px;
     position: absolute;
     top: 50%;
     left: 50%;

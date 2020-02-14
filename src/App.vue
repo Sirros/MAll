@@ -1,8 +1,8 @@
 <template>
   <div>
     <main-tab-bar/>
-    <keep-alive>
-      <router-view />
+    <keep-alive exclude="Detail">
+      <router-view/>
     </keep-alive>
   </div>
 </template>
