@@ -1,23 +1,26 @@
 <template>
-    <div class="wrapper">
-      <swiper :options="swiperOption" class="swiper-container" >
-        <!-- slides -->
-        <swiper-slide class="swiper-item" v-for='(item, index) of banners' :key='index'>
-          <a :href="item.link">
-            <img class='swiper-img' :src='item.image' alt="" @load="imageLoad"/>
-          </a>
-        </swiper-slide>
-        <!-- Optional controls ,显示小点-->
-        <div class="swiper-pagination"  slot="pagination"></div>
+  <div class="wrapper">
+    <swiper :options="swiperOption" class="swiper-container homw-swiper">
+      <!-- slides -->
+      <swiper-slide class="swiper-item" v-for='(item, index) of banners' :key='index'>
+        <a :href="item.link">
+          <img class='swiper-img' :src='item.image' alt="" @load="imageLoad"/>
+        </a>
+      </swiper-slide>
+      <!-- Optional controls ,显示小点-->
+      <div class="swiper-pagination"  slot="pagination"></div>
     </swiper>
   </div>
 </template>
 
 <script>
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
 export default {
   name:'HomeSwiper',
   components:{
-    
+    swiper,
+    swiperSlide
   },
   props:{
     banners: Array,
@@ -29,13 +32,16 @@ export default {
     return {
       swiperOption:{
         // 参数选项,显示小点
-        pagination:'.swiper-pagination',
+        pagination: '.swiper-pagination',
         //循环
-        loop:true,
+        loop: true,
         //每张播放时长2秒，自动播放
-        autoplay:2000,
-        //滑动速度
-        speed:800,
+        autoplay: 2000,
+        // 操作swiper后，还会继续播放
+        autoplayDisableOnInteraction: false,
+        
+        // //滑动速度
+        speed: 800,
       },
       pagination: {
         el: '.swiper-pagination',
@@ -54,11 +60,18 @@ export default {
   }
 }
 </script>
-<style scoped>
-    .swiper-item img{
+<style>
+    .homw-swiper img{
       width: 100%;
     }
-    .swiper-container .swiper-pagination-bullet{
+    .homw-swiper .swiper-pagination{
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      bottom: 8px;
+    }
+    .homw-swiper .swiper-pagination-bullet{
       box-sizing: border-box;
       width: 8px;
       height: 8px;
@@ -69,7 +82,7 @@ export default {
       font-size: 12px;
       margin: 0 5px;
     }
-    .swiper-container .swiper-pagination-bullet-avtive{
+    .homw-swiper .swiper-pagination-bullet-active{
       background-color: rgba(212,62,46,1.0);
     }
 </style>

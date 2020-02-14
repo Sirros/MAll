@@ -32,7 +32,7 @@ export default {
       // console.log('*******************')
     },
     itemClick() {
-      this.$router.push('/detail')
+      this.$router.push('/detail' + this.goodsItem.iid)
       // console.log('****123')
     }
   }

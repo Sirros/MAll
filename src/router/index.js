@@ -44,7 +44,7 @@ const routes =[
   },
   {
     // “详情页”映射
-    path:'/detail',
+    path:'/detail:iid',
     component: Detail
   }
 ]
