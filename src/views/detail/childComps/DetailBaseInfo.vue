@@ -89,10 +89,13 @@ export default {
     justify-content: space-between;
   }
   .serveces-info{
-    height: 50px;
+    height: 60px;
     line-height: 60px;
     display: flex;
     justify-content: space-between;
+  }
+  .serveces-info-item{
+    font-size: 13px;
   }
   .serveces-info-item img{
     width: 12px;

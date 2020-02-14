@@ -3,6 +3,7 @@
     <detail-nav-bar/>
       <detail-swiper :top-image="topImage"/>
       <detail-base-info :goods-detail="goodsDetail" />
+      <detail-shop-info :shop-detail="shopDetail"/>
   </div>
 </template>
 
@@ -11,23 +12,26 @@
 import DetailNavBar from './childComps/DetailNavBar'
 import DetailSwiper from './childComps/DetailSwiper'
 import DetailBaseInfo from './childComps/DetailBaseInfo'
+import DetailShopInfo from './childComps/DetailShopInfo'
 
 // 导入网络请求方法
-import {getDetail, GoodsDetail} from 'network/details'
+import {getDetail, GoodsDetail, ServicesInfo} from 'network/details'
 
 export default {
   name:'Detail',
   components:{
     DetailNavBar,
     DetailSwiper,
-    DetailBaseInfo
+    DetailBaseInfo,
+    DetailShopInfo
   },
   props:{},
   data(){
     return {
       iid: null,
       topImage: [],
-      goodsDetail: null
+      goodsDetail: {},
+      shopDetail: {}
     }
   },
   computed:{},
@@ -44,6 +48,9 @@ export default {
 
       // 3.获取商品详情数据
       this.goodsDetail = new GoodsDetail(result.itemInfo, result.columns, result.shopInfo.services) 
+
+      // 4.获取商家信息
+      this.shopDetail = new ServicesInfo(result.shopInfo)
     })
 
 
