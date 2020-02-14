@@ -1,21 +1,27 @@
 <template>
-  <div class="">
-    详情页
+  <div id="detail">
+    <detail-nav-bar></detail-nav-bar>
   </div>
 </template>
 
 <script>
+import DetailNavBar from './childComps/DetailNavBar'
+
 export default {
-  components:{},
+  components:{
+    DetailNavBar
+  },
   props:{},
   data(){
     return {
+      iid: null
     }
   },
-  watch:{},
   computed:{},
   methods:{},
-  created(){},
+  created(){
+    this.iid = this.$route.params.iid
+  },
   mounted(){}
 }
 </script>
