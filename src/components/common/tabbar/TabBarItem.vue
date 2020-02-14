@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  name:'TabBarItem',
   components:{},
   // 父传子，传值进来
   props:{

@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name:'TabControl',
   components:{},
   props:{
     title: Array,
