@@ -183,7 +183,7 @@ export default {
   #home{
     background-color: #fff;
     height: 100vh;
-    position: relative;
+    /* position: relative; */
   }
   .home-nav-bar{
     color: #fff;

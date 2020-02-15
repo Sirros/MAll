@@ -67,7 +67,10 @@ export default {
   .top-info{
     text-align: center;
     height: 60px;
-    margin-top: 5px;
+    margin-top: 25px;
+  }
+  .top-info .title{
+    margin-left: 5px;
   }
   .top-info span{
     height: 100%;
@@ -130,6 +133,7 @@ export default {
   }
   .bottom-info{
     text-align: center;
+    margin-bottom: 30px;
   }
   .bottom-info .erter-shop{
     background-color: #f2f5f8;
