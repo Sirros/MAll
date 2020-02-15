@@ -6,6 +6,7 @@
       <detail-base-info :goods-detail="goodsDetail" />
       <detail-shop-info :shop-detail="shopDetail"/>
       <detail-goods-info :detail-info="DetailInfo" @imageLoad="imageLoad"/>
+      <detail-param-info :goods-param="goodsParam" />
     </b-scroll>
   </div>
 </template>
@@ -17,11 +18,12 @@ import DetailSwiper from './childComps/DetailSwiper'
 import DetailBaseInfo from './childComps/DetailBaseInfo'
 import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+import DetailParamInfo from './childComps/DetailParamInfo'
 
 import BScroll from 'components/common/scroll/BScroll'
 
 // 导入网络请求方法
-import {getDetail, GoodsDetail, ServicesInfo} from 'network/details'
+import { getDetail, GoodsDetail, ServicesInfo, GoodsParam } from 'network/details'
 
 export default {
   name:'Detail',
@@ -30,8 +32,9 @@ export default {
     DetailSwiper,
     DetailBaseInfo,
     DetailShopInfo,
-    BScroll,
-    DetailGoodsInfo
+    DetailGoodsInfo,
+    DetailParamInfo,
+    BScroll
   },
   props:{},
   data(){
@@ -40,7 +43,8 @@ export default {
       topImage: [],
       goodsDetail: {},
       shopDetail: {},
-      DetailInfo: {}
+      DetailInfo: {},
+      goodsParam: {}
     }
   },
   computed:{},
@@ -67,6 +71,9 @@ export default {
 
       // 5.获取商品详情图片信息
       this.DetailInfo = result.detailInfo
+
+      // 6.获取尺码等商品参数信息
+      this.goodsParam = new GoodsParam(result.itemParams.info, result.itemParams.rule)
     })
 
 
