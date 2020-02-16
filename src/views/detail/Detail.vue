@@ -1,7 +1,11 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav-bar" @detailItemClick="detailItemClick" />
-    <b-scroll class="content" ref="scroll">
+    <detail-nav-bar class="detail-nav-bar" 
+        @detailItemClick="detailItemClick" 
+        ref="_nav_bar"/>
+    <b-scroll class="content" ref="scroll" 
+        @scroll="scrollContent" 
+        :probe-type="3">
       <detail-swiper :top-image="topImage"/>
       <detail-base-info :goods-detail="goodsDetail" />
       <detail-shop-info :shop-detail="shopDetail"/>
@@ -58,7 +62,8 @@ export default {
       goodsCommentInfo: {},
       recommendsList: [],
       themeTopYs: [],
-      getOffsetTopDebounce: null
+      getOffsetTopDebounce: null,
+      currentIndex: 0
     }
   },
   computed:{},
@@ -70,6 +75,18 @@ export default {
     detailItemClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 500)
       this.getOffsetTopDebounce()
+    },
+    scrollContent(position) {
+      let positionY = -position.y
+      this.themeTopYs.push(Infinity)
+      let len = this.themeTopYs.length
+      for(let i=0; i<len; i++){
+        if(this.currentIndex !== i && positionY >= this.themeTopYs[i] && positionY <= this.themeTopYs[i+1]){
+          this.currentIndex = i
+          // console.log(this.currentIndex)
+          this.$refs._nav_bar.currentIndex = this.currentIndex
+        }
+      }
     }
   },
   created(){
@@ -114,7 +131,6 @@ export default {
       this.themeTopYs.push(this.$refs.params.$el.offsetTop)
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
-      console.log(this.themeTopYs)
     }, 100)
 
   },
