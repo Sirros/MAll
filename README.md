@@ -1,4 +1,4 @@
-# supermall
+# 一个基于 vue 的 webApp 移动商城
 
 ## Project setup
 ```
