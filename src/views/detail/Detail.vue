@@ -8,6 +8,7 @@
       <detail-goods-info :detail-info="DetailInfo" @imageLoad="imageLoad"/>
       <detail-param-info :goods-param="goodsParam" />
       <detail-comment-info :goods-comment-info="goodsCommentInfo"/>
+      <goods-list :goods="recommendsList"/>
     </b-scroll>
   </div>
 </template>
@@ -23,9 +24,10 @@ import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
 
 import BScroll from 'components/common/scroll/BScroll'
+import GoodsList from 'components/content/goods/GoodsList'
 
 // 导入网络请求方法
-import { getDetail, GoodsDetail, ServicesInfo, GoodsParam } from 'network/details'
+import { getDetail, GoodsDetail, ServicesInfo, GoodsParam, getRecommend } from 'network/details'
 
 export default {
   name:'Detail',
@@ -37,6 +39,7 @@ export default {
     DetailGoodsInfo,
     DetailParamInfo,
     DetailCommentInfo,
+    GoodsList,
     BScroll
   },
   props:{},
@@ -48,14 +51,16 @@ export default {
       shopDetail: {},
       DetailInfo: {},
       goodsParam: {},
-      goodsCommentInfo: {}
+      goodsCommentInfo: {},
+      recommendsList: [],
     }
   },
   computed:{},
   methods:{
     imageLoad() {
       this.$refs.scroll.refresh()
-    }
+    },
+
   },
   created(){
     // 1.获取商品id
@@ -83,6 +88,11 @@ export default {
       this.goodsCommentInfo = result.rate.list[0]
     })
 
+    // 获取推荐商品数据
+    getRecommend().then(res => {
+      console.log(res)
+      this.recommendsList = res.data.list
+    })
 
   },
   mounted(){}

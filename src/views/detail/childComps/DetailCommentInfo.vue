@@ -12,6 +12,9 @@
       <div class="content-text">{{goodsCommentInfo.content}}</div>
       <div class="content-params">{{goodsCommentInfo.created | formatDate}}<span>{{goodsCommentInfo.style}}</span></div>
     </div>
+    <div class="info-imgs">
+      <img :src="item" v-for="(item, index) in goodsCommentInfo.images" :key="index">
+    </div>
   </div>
 </template>
 
@@ -102,5 +105,13 @@ export default {
   }
   .comment-content .content-params span{
     margin-left: 6px;
+  }
+  .info-imgs {
+    margin-top: 10px;
+  }
+  .info-imgs img {
+    width: 70px;
+    height: 70px;
+    margin-right: 5px;
   }
 </style>
