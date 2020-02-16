@@ -28,6 +28,8 @@ import GoodsList from 'components/content/goods/GoodsList'
 
 // 导入网络请求方法
 import { getDetail, GoodsDetail, ServicesInfo, GoodsParam, getRecommend } from 'network/details'
+import {debounce} from 'common/utils'
+import {itemListenerMixin} from 'common/mixin'
 
 export default {
   name:'Detail',
@@ -43,6 +45,8 @@ export default {
     BScroll
   },
   props:{},
+  // 这里使用混入
+  mixins: [itemListenerMixin],
   data(){
     return {
       iid: null,
@@ -52,7 +56,7 @@ export default {
       DetailInfo: {},
       goodsParam: {},
       goodsCommentInfo: {},
-      recommendsList: [],
+      recommendsList: []
     }
   },
   computed:{},
@@ -95,7 +99,13 @@ export default {
     })
 
   },
-  mounted(){}
+  mounted(){
+    // 详情看混入文件mixin.js
+  },
+  // 这个页面由于在路由的时候keep-alive exclude了，所以没有缓存，不会直接deactivated函数，所以用destory
+  distory(){
+    this.$bus.$off('itemImageLoad', this.itemImageListener)
+  }
 }
 </script>
 <style scoped>

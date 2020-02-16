@@ -55,6 +55,7 @@ import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
 
 // 公共方法导入
 import {debounce} from 'common/utils'
+import {itemListenerMixin} from 'common/mixin'
 
 export default {
   name:'Home',
@@ -69,6 +70,7 @@ export default {
     BackTop
   },
   props:{},
+  mixins: [itemListenerMixin],
   data(){
     return {
       banners: [],
@@ -157,12 +159,7 @@ export default {
     this.HomeTotalGoodsData('sell')
   },
   mounted(){
-    // 1.监听item中图片加载完成
-    // 防抖操作
-    const refresh = debounce(this.$refs.scroll.refresh, 200)
-    this.$bus.$on('itemImageLoad', ()=>{
-      refresh()
-    })
+    
   },
   destroy(){
     console.log('destroy')
@@ -174,8 +171,11 @@ export default {
     this.$refs.scroll.refresh()
   },
   deactivated(){
-    // 离开的时候保存当前的位置
+    // 1.离开的时候保存当前的位置
     this.saveY = this.$refs.scroll.getScrollY()
+
+    // 2.离开的时候取消全局事件监听
+    this.$bus.$off('itemImageLoad', this.itemImageListener)
   }
 }
 </script>
