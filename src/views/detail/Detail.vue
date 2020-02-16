@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
-    <detail-nav-bar class="detail-nav-bar" />
+    <detail-nav-bar class="detail-nav-bar" @detailItemClick="detailItemClick" />
     <b-scroll class="content" ref="scroll">
       <detail-swiper :top-image="topImage"/>
       <detail-base-info :goods-detail="goodsDetail" />
       <detail-shop-info :shop-detail="shopDetail"/>
       <detail-goods-info :detail-info="DetailInfo" @imageLoad="imageLoad"/>
-      <detail-param-info :goods-param="goodsParam" />
-      <detail-comment-info :goods-comment-info="goodsCommentInfo"/>
-      <goods-list :goods="recommendsList"/>
+      <detail-param-info ref="params" :goods-param="goodsParam" />
+      <detail-comment-info ref="comment" :goods-comment-info="goodsCommentInfo"/>
+      <goods-list ref="recommend" :goods="recommendsList"/>
     </b-scroll>
   </div>
 </template>
@@ -56,17 +56,24 @@ export default {
       DetailInfo: {},
       goodsParam: {},
       goodsCommentInfo: {},
-      recommendsList: []
+      recommendsList: [],
+      themeTopYs: [],
+      getOffsetTopDebounce: null
     }
   },
   computed:{},
   methods:{
     imageLoad() {
       this.$refs.scroll.refresh()
+      this.getOffsetTopDebounce()      
     },
-
+    detailItemClick(index) {
+      this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 500)
+      this.getOffsetTopDebounce()
+    }
   },
   created(){
+    // 111
     // 1.获取商品id
     this.iid = this.$route.params.iid
 
@@ -92,11 +99,23 @@ export default {
       this.goodsCommentInfo = result.rate.list[0]
     })
 
+    // 222
     // 获取推荐商品数据
     getRecommend().then(res => {
       console.log(res)
       this.recommendsList = res.data.list
     })
+
+    // 333
+    // 当图片都加载完了后才赋值给各个部分的offsetTop，并且进行防抖
+    this.getOffsetTopDebounce = debounce(()=>{
+      this.themeTopYs = []
+      this.themeTopYs.push(0)
+      this.themeTopYs.push(this.$refs.params.$el.offsetTop)
+      this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
+      this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
+      console.log(this.themeTopYs)
+    }, 100)
 
   },
   mounted(){
