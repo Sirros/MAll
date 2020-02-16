@@ -7,6 +7,7 @@
       <detail-shop-info :shop-detail="shopDetail"/>
       <detail-goods-info :detail-info="DetailInfo" @imageLoad="imageLoad"/>
       <detail-param-info :goods-param="goodsParam" />
+      <detail-comment-info :goods-comment-info="goodsCommentInfo"/>
     </b-scroll>
   </div>
 </template>
@@ -19,6 +20,7 @@ import DetailBaseInfo from './childComps/DetailBaseInfo'
 import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
+import DetailCommentInfo from './childComps/DetailCommentInfo'
 
 import BScroll from 'components/common/scroll/BScroll'
 
@@ -34,6 +36,7 @@ export default {
     DetailShopInfo,
     DetailGoodsInfo,
     DetailParamInfo,
+    DetailCommentInfo,
     BScroll
   },
   props:{},
@@ -44,7 +47,8 @@ export default {
       goodsDetail: {},
       shopDetail: {},
       DetailInfo: {},
-      goodsParam: {}
+      goodsParam: {},
+      goodsCommentInfo: {}
     }
   },
   computed:{},
@@ -74,6 +78,9 @@ export default {
 
       // 6.获取尺码等商品参数信息
       this.goodsParam = new GoodsParam(result.itemParams.info, result.itemParams.rule)
+
+      // 7.获取商品评论数据
+      this.goodsCommentInfo = result.rate.list[0]
     })
 
 
