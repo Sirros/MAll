@@ -15,6 +15,8 @@
       <goods-list ref="recommend" :goods="recommendsList"/>
     </b-scroll>
     <detail-bottom-bar/>
+    
+    <back-top @click.native="backTop" v-show="isShow"/>
   </div>
 </template>
 
@@ -29,13 +31,14 @@ import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
 import DetailBottomBar from './childComps/DetailBottomBar'
 
+
 import BScroll from 'components/common/scroll/BScroll'
 import GoodsList from 'components/content/goods/GoodsList'
 
 // 导入网络请求方法
 import { getDetail, GoodsDetail, ServicesInfo, GoodsParam, getRecommend } from 'network/details'
-import {debounce} from 'common/utils'
-import {itemListenerMixin} from 'common/mixin'
+import { debounce } from 'common/utils'
+import { itemListenerMixin, backTopMixin } from 'common/mixin'
 
 export default {
   name:'Detail',
@@ -53,7 +56,7 @@ export default {
   },
   props:{},
   // 这里使用混入
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin,backTopMixin],
   data(){
     return {
       iid: null,
@@ -89,6 +92,7 @@ export default {
           this.$refs._nav_bar.currentIndex = this.currentIndex
         }
       }
+      this.isShow = (-position.y) > 1000
     }
   },
   created(){

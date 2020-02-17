@@ -48,14 +48,13 @@ import NavBar from 'components/common/navbar/NavBar'
 import TabControl from 'components/content/tabControl/TabControl'
 import GoodsList from 'components/content/goods/GoodsList'
 import BScroll from 'components/common/scroll/BScroll'
-import BackTop from 'components/common/backtop/BackTop'
 
 // 网络封装导入
-import {getHomeMultiData , getHomeTotalGoodsData} from 'network/home'
+import { getHomeMultiData , getHomeTotalGoodsData } from 'network/home'
 
 // 公共方法导入
-import {debounce} from 'common/utils'
-import {itemListenerMixin} from 'common/mixin'
+import { debounce } from 'common/utils'
+import { itemListenerMixin, backTopMixin } from 'common/mixin'
 
 export default {
   name:'Home',
@@ -67,10 +66,10 @@ export default {
     GoodsList,
     NavBar,
     BScroll,
-    BackTop
+    // BackTop
   },
   props:{},
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data(){
     return {
       banners: [],
@@ -103,11 +102,6 @@ export default {
       }
       this.$refs.tabControlTop.currentIndex = index
       this.$refs.tabControlBottom.currentIndex = index
-    },
-    backTop(x, y, time){
-      // this.$refs.scroll.scrollTo(0, 0, 600)
-      console.log("backtop")
-      this.$refs.scroll.scrollTo(0, 0, 500)
     },
     backTopLogoShow(position){
       // console.log(position)
