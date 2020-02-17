@@ -34,7 +34,7 @@ export default {
   computed:{},
   methods:{
     detailItemClick(index) {
-      this.currentIndex = index
+      // this.currentIndex = index
       this.$emit('detailItemClick', index)
     },
     backClick() {

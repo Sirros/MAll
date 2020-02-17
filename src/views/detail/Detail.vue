@@ -14,6 +14,7 @@
       <detail-comment-info ref="comment" :goods-comment-info="goodsCommentInfo"/>
       <goods-list ref="recommend" :goods="recommendsList"/>
     </b-scroll>
+    <detail-bottom-bar/>
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import DetailShopInfo from './childComps/DetailShopInfo'
 import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
+import DetailBottomBar from './childComps/DetailBottomBar'
 
 import BScroll from 'components/common/scroll/BScroll'
 import GoodsList from 'components/content/goods/GoodsList'
@@ -46,6 +48,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     GoodsList,
+    DetailBottomBar,
     BScroll
   },
   props:{},
@@ -78,10 +81,9 @@ export default {
     },
     scrollContent(position) {
       let positionY = -position.y
-      this.themeTopYs.push(Infinity)
       let len = this.themeTopYs.length
-      for(let i=0; i<len; i++){
-        if(this.currentIndex !== i && positionY >= this.themeTopYs[i] && positionY <= this.themeTopYs[i+1]){
+      for(let i=0; i<len-1; i++){
+        if(this.currentIndex !== i &&( positionY >= this.themeTopYs[i] && positionY <= this.themeTopYs[i+1])){
           this.currentIndex = i
           // console.log(this.currentIndex)
           this.$refs._nav_bar.currentIndex = this.currentIndex
@@ -131,6 +133,7 @@ export default {
       this.themeTopYs.push(this.$refs.params.$el.offsetTop)
       this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
       this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
+      this.themeTopYs.push(Infinity)
     }, 100)
 
   },
@@ -165,7 +168,7 @@ export default {
     top: 44px;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 49px;
   }
 
 </style>
