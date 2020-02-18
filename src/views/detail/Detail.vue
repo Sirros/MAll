@@ -107,7 +107,8 @@ export default {
       product.count = this.goodsDetail.count
 
       // 2.将商品加入购物车：利用vuex
-      this.$store.commit('addToCart', product)
+      // this.$store.commit('addToCart', product)
+      this.$store.dispatch('addToCart', product)
     }
   },
   created(){
