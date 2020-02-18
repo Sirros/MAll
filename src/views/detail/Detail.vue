@@ -14,8 +14,7 @@
       <detail-comment-info ref="comment" :goods-comment-info="goodsCommentInfo"/>
       <goods-list ref="recommend" :goods="recommendsList"/>
     </b-scroll>
-    <detail-bottom-bar/>
-    
+    <detail-bottom-bar @addCart="addToShopCart"/>
     <back-top @click.native="backTop" v-show="isShow"/>
   </div>
 </template>
@@ -30,7 +29,6 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo'
 import DetailParamInfo from './childComps/DetailParamInfo'
 import DetailCommentInfo from './childComps/DetailCommentInfo'
 import DetailBottomBar from './childComps/DetailBottomBar'
-
 
 import BScroll from 'components/common/scroll/BScroll'
 import GoodsList from 'components/content/goods/GoodsList'
@@ -74,14 +72,17 @@ export default {
   },
   computed:{},
   methods:{
+    // 1.监听图片加载完毕
     imageLoad() {
       this.$refs.scroll.refresh()
       this.getOffsetTopDebounce()      
     },
+    // 2.监听detail navbar点击
     detailItemClick(index) {
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 500)
       this.getOffsetTopDebounce()
     },
+    // 3.监听内容滚动
     scrollContent(position) {
       let positionY = -position.y
       let len = this.themeTopYs.length
@@ -93,6 +94,20 @@ export default {
         }
       }
       this.isShow = (-position.y) > 1000
+    },
+    // 4.加入购物车
+    addToShopCart() {
+      // 1.获取购物车需要的信息：商品图片、商品标题、商品描述、商品价格
+      const product = {}
+      product.image = this.topImage[0]
+      product.title = this.goodsDetail.title
+      product.desc = this.goodsDetail.desc
+      product.price = this.goodsDetail.lowNowPrice
+      product.iid = this.iid 
+      product.count = this.goodsDetail.count
+
+      // 2.将商品加入购物车：利用vuex
+      this.$store.commit('addToCart', product)
     }
   },
   created(){

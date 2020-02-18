@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store/index'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 
 // require styles
@@ -17,5 +18,6 @@ Vue.prototype.$bus = new Vue()
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App),
 })
