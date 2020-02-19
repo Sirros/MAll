@@ -1,5 +1,5 @@
 <template>
-  <div class="check-button" :class="{select: isSelect}">
+  <div class="check-button" :class="{select: isSelected}">
     <img src="~assets/images/cart/tick.svg" alt=""/>
   </div>
 </template>
@@ -9,7 +9,7 @@ export default {
   name: 'CheckButton',
   components:{},
   props:{
-    isSelect: {
+    isSelected: {
       type: Boolean,
       default: true
     }

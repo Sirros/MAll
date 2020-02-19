@@ -1,7 +1,7 @@
 <template>
   <div class="cart-list-item item">
     <div class="cart-list-item select-status">
-      <check-button class="check-button"/>
+      <check-button class="check-button" :is-selected="product.selected" @click.native="selectClick"/>
     </div>
     <div class="cart-list-item good-image">
       <img :src="product.image" alt=""/>
@@ -37,11 +37,11 @@ export default {
     return {
     }
   },
-  watch:{},
-  computed:{},
-  methods:{},
-  created(){},
-  mounted(){}
+  methods:{
+    selectClick() {
+      this.product.selected = !this.product.selected
+    }
+  },
 }
 </script>
 <style scoped>
@@ -59,7 +59,11 @@ export default {
     align-items: center;
   }
   .good-image{
-    width: 25%;
+    /* width: 22%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
   }
   .good-image img{
     width: 70px;
