@@ -43,7 +43,7 @@ export default {
 </script>
 <style scoped>
   .cart-list{
-    height: calc(100% - 44px - 49px);
+    height: calc(100% - 44px - 49px - 45px);
     width: 100%;
   }
   .content{
