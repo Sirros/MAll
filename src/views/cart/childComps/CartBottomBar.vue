@@ -7,7 +7,7 @@
           @click.native="selectClick"/><span>全选</span>
     </div>
     <div class="cart-bottom-bar total-price">{{totalPrice}}</div>
-    <div class="cart-bottom-bar calculate">去结算({{+cartListLength}})</div>
+    <div class="cart-bottom-bar calculate" @click="calcClick">去结算({{+cartListLength}})</div>
   </div>
 </template>
 
@@ -48,14 +48,24 @@ export default {
     }
   },
   methods:{
+    // 1.监听全选按钮
     selectClick() {
       if(this.isAllSelected) {
         this.$store.state.shopCartList.forEach(item => item.selected = false)
       } else {
         this.$store.state.shopCartList.forEach(item => item.selected = true)
       }
+    },
+    // 2.监听结算按钮
+    calcClick() { 
+      // 判断是否一个商品都没有选择
+      let no_select_len = this.$store.state.shopCartList.filter(item => !item.selected).length
+      let cart_length = this.$store.state.shopCartList.length
+      if(no_select_len === cart_length){
+        this.$toast.show("请选择某一商品")
+      }
     }
-  },
+  }, 
   created(){},
   mounted(){}
 }

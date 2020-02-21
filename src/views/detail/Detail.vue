@@ -38,6 +38,7 @@ import { getDetail, GoodsDetail, ServicesInfo, GoodsParam, getRecommend } from '
 import { debounce } from 'common/utils'
 import { itemListenerMixin, backTopMixin } from 'common/mixin'
 
+
 export default {
   name:'Detail',
   components:{
@@ -108,7 +109,9 @@ export default {
 
       // 2.将商品加入购物车：利用vuex
       // this.$store.commit('addToCart', product)
-      this.$store.dispatch('addToCart', product)
+      this.$store.dispatch('addToCart', product).then(res => {
+        this.$toast.show(res)
+      })
     }
   },
   created(){
