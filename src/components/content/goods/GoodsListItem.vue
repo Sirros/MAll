@@ -1,6 +1,8 @@
 <template>
   <div class="goods-list-item" @click="itemClick">
-    <img :src="showImg" @load="imageLoad"/>
+    <!-- <img :src="showImg" @load="imageLoad"/> -->
+    <!-- 改成懒加载 -->
+    <img v-lazy="showImg" @load="imageLoad"/>
     <div class="goods-list-item-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
