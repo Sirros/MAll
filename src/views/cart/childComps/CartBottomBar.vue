@@ -1,7 +1,10 @@
 <template>
   <div class="cart-bottom-bar bottom-bar">
     <div class="cart-bottom-bar all-choose">
-      <check-button class="button"/><span>全选</span>
+      <check-button 
+          class="button" 
+          :is-selected="isAllSelected"
+          @click.native="selectClick"/><span>全选</span>
     </div>
     <div class="cart-bottom-bar total-price">{{totalPrice}}</div>
     <div class="cart-bottom-bar calculate">去结算({{+cartListLength}})</div>
@@ -19,6 +22,7 @@ export default {
   props:{},
   data(){
     return {
+      // isAllSelected: false
     }
   },
   computed:{
@@ -31,11 +35,27 @@ export default {
         return preVal + item.price * item.count
       }, 0).toFixed(2)
     },
+    // 2.计算总量
     cartListLength() {
       return this.$store.state.shopCartList.filter(item => item.selected).length
+    },
+    // 3.监听全选按钮
+    isAllSelected() {
+      if(this.$store.state.shopCartList.length === 0) return false
+      // 也可以用filter，过滤找到一个 selected 属性为 false 的就返回，find 性能高
+      // return !(this.$store.state.shopCartList.filter(item => !item.selected).length)
+      return !(this.$store.state.shopCartList.find(item => !item.selected))
     }
   },
-  methods:{},
+  methods:{
+    selectClick() {
+      if(this.isAllSelected) {
+        this.$store.state.shopCartList.forEach(item => item.selected = false)
+      } else {
+        this.$store.state.shopCartList.forEach(item => item.selected = true)
+      }
+    }
+  },
   created(){},
   mounted(){}
 }
@@ -51,6 +71,7 @@ export default {
     border-top: 1px solid #e5e5e59d;
     box-sizing: border-box;
     text-align: center;
+    font-size: 16px;
   }
   .all-choose{
     width: 80px;
@@ -59,15 +80,14 @@ export default {
     justify-content: space-evenly;
     align-items: center;
   }
-  .all-choose .button{
-    /* margin-right: 5px; */
-  }
   .total-price{
     flex: 1;
-    background-color: aqua;
+    font-size: 18px;
+    color: #333;
   }
   .calculate{
     width: 120px;
-    background-color: aquamarine;
+    color: #fff;
+    background-color: rgba(236, 99, 124, 0.705);
   }
 </style>
