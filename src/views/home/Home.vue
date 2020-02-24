@@ -126,7 +126,7 @@ export default {
     // 网络数据请求事件
     HomeMultiData(){
       getHomeMultiData().then(res=>{
-      // console.log(res)
+      console.log(res)
       this.banners = res.data.banner.list
       this.recommends = res.data.recommend.list
       })
@@ -135,7 +135,7 @@ export default {
       // 一页一页加载数据
       const page = this.goods[type].page + 1
       getHomeTotalGoodsData(type, page).then(res => {
-        console.log(res)
+        // console.log(res)
         this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
 
