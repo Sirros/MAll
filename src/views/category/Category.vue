@@ -12,15 +12,32 @@ import NavBar from 'components/common/navbar/NavBar'
 
 import CategoryContent from './childComps/CategoryContent'
 
+import { getCategoryData } from 'network/category'
+
 export default {
   name:'Category',
-  components:{
+  components: {
     NavBar,
     CategoryContent
   },
-  props:{},
+  props: {},
   data(){
     return {
+      categoryListData: {}
+    }
+  },
+  created() {
+    // 1.请求分类数据
+    this.categoryData()
+  },
+  methods: {
+    // 1.分类数据请求方法
+    categoryData() {
+      getCategoryData().then(res => {
+        console.log(res)
+        let result = res.data.category
+        this.categoryListData = result.list
+      })
     }
   }
 }

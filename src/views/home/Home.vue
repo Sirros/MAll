@@ -126,9 +126,9 @@ export default {
     // 网络数据请求事件
     HomeMultiData(){
       getHomeMultiData().then(res=>{
-      console.log(res)
-      this.banners = res.data.banner.list
-      this.recommends = res.data.recommend.list
+        console.log(res)
+        this.banners = res.data.banner.list
+        this.recommends = res.data.recommend.list
       })
     },
     HomeTotalGoodsData(type){
